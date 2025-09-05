@@ -1,4 +1,7 @@
 # EXPERIMENT 03 SIMULATION OF PUSHBUTTON AND LED INTERFACE WITH ARM CONTROLLER AND PROTEUS 
+## NAME: SANTHOSH S
+## REG.NO: 212224100052
+## DATE: 01/09/2025
 ## Aim: To Interface a Digital output (LED) and Digital input (Pushbutton) to ARM development board , and simulate it in Proteus 
 ## Components required: STM32 CUBE IDE, Proteus 8 simulator .
 ## Theory 
@@ -73,10 +76,8 @@ We are now at the last part of step by step guide on how to simulate STM32 proje
 ## STM 32 CUBE PROGRAM :
 ```
 #include "main.h"
-#include <stdbool.h>
-
-void push_button();
-bool button_status;
+#include<stdbool.h>
+bool status;
 
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
@@ -84,28 +85,27 @@ static void MX_GPIO_Init(void);
 int main(void)
 {
   HAL_Init();
+
   SystemClock_Config();
+
   MX_GPIO_Init();
 
   while (1)
   {
-    push_button();
+	  status=HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_5);
+	  if(status==0){
+		  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_SET);
+		  HAL_Delay(500);
+		  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_RESET);
+		  HAL_Delay(500);
+	  }
+	  else
+	  {
+		  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_RESET);
+	  }
   }
+  
 }
-
-void push_button()
-{
-  button_status = HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_5);
-  if (button_status == 0)
-  {
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_SET);
-  }
-  else
-  {
-    HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
-  }
-}
-
 void SystemClock_Config(void)
 {
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
@@ -113,7 +113,6 @@ void SystemClock_Config(void)
 
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
-
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
@@ -122,9 +121,8 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
-                              | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
@@ -135,55 +133,64 @@ void SystemClock_Config(void)
     Error_Handler();
   }
 }
-
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
+  
   __HAL_RCC_GPIOA_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
 
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_11, GPIO_PIN_RESET);
+  
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0, GPIO_PIN_RESET);
 
-  GPIO_InitStruct.Pin = GPIO_PIN_5;
-  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-  GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  GPIO_InitStruct.Pin = GPIO_PIN_11;
+  
+  GPIO_InitStruct.Pin = GPIO_PIN_0;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+  
+  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
 }
 
 void Error_Handler(void)
 {
+  
   __disable_irq();
   while (1)
   {
   }
+  
 }
 
-#ifdef USE_FULL_ASSERT
+#ifdef  USE_FULL_ASSERT
 void assert_failed(uint8_t *file, uint32_t line)
 {
+  
 }
-#endif
+#endif 
+
 ```
 
 
 
 
 ## Output screen shots of proteus  :
-<img width="742" height="862" alt="Screenshot 2025-09-03 085748" src="https://github.com/user-attachments/assets/a1dcf4b6-429b-426c-bc95-e154104ee524" />
-<img width="802" height="883" alt="Screenshot 2025-09-03 085801" src="https://github.com/user-attachments/assets/07f1de4e-7fb8-47e2-b528-dc1f057470f6" />
+![alt text](<Screenshot 2025-09-01 142909.png>)
+![alt text](<Screenshot 2025-09-01 142853.png>)
 
 
 
 
 
 ## Proteus layout(Add pdf screen shot of circuit here)
- <img width="681" height="713" alt="image" src="https://github.com/user-attachments/assets/1e855c75-3a79-44fc-8b1e-0c6a6b8662b8" />
+![alt text](<Screenshot 2025-09-05 171439.png>)
 
  
  
