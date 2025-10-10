@@ -92,7 +92,7 @@ int main(void)
 
   while (1)
   {
-	  status=HAL_GPIO_ReadPin(GPIOA,GPIO_PIN_5);
+	  status=HAL_GPIO_ReadPin(GPIOC,GPIO_PIN_5);
 	  if(status==0){
 		  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_0,GPIO_PIN_SET);
 		  HAL_Delay(500);
@@ -182,15 +182,16 @@ void assert_failed(uint8_t *file, uint32_t line)
 
 
 ## Output screen shots of proteus  :
-![alt text](<Screenshot 2025-09-01 142909.png>)
-![alt text](<Screenshot 2025-09-01 142853.png>)
+<img width="1920" height="1200" alt="Screenshot (59)" src="https://github.com/user-attachments/assets/59b4db81-98f0-4a68-8635-2fd51f4b8ae6" />
+<img width="1920" height="1200" alt="Screenshot (61)" src="https://github.com/user-attachments/assets/35a4a405-5f8a-44ee-86f9-95eae1956d05" />
 
 
 
 
 
 ## Proteus layout(Add pdf screen shot of circuit here)
-![alt text](<Screenshot 2025-09-05 171439.png>)
+<img width="1145" height="807" alt="Screenshot 2025-10-10 123955" src="https://github.com/user-attachments/assets/bf18b533-9ebe-461d-9f16-d81d064de860" />
+
 
  
  
